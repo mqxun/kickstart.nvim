@@ -298,7 +298,8 @@ do
   --  runs the appropriate build command for that plugin if necessary.
   --
   -- See `:help vim.pack-events`
-  vim.api.nvim_create_autocmd('PackChanged', {
+  vim.api.nvim_create_autocmd('User', {
+    pattern = 'PackChanged',
     callback = function(ev)
       local name = ev.data.spec.name
       local kind = ev.data.kind
