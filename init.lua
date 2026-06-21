@@ -208,6 +208,22 @@ do
   -- Open Terminal split with <leader>tt
   vim.keymap.set('n', '<leader>tt', ':split | terminal<CR>', { desc = 'Open [T]erminal split' })
 
+  -- Compile and run current C++ file (debug build)
+  vim.keymap.set('n', '<leader>cpd', function()
+    local file = vim.fn.expand '%'
+    local out = vim.fn.expand '%:r'
+    local flags = '-std=c++20 -pedantic-errors -Wall -Wextra -Weffc++ -Wconversion -Wsign-conversion -Werror -ggdb'
+    vim.cmd('split | terminal g++ ' .. flags .. ' ' .. file .. ' -o ' .. out .. ' && ./' .. out)
+  end, { desc = '[C]ompile and run C++ file ([D]ebug)' })
+
+  -- Compile and run current C++ file (release build)
+  vim.keymap.set('n', '<leader>cpr', function()
+    local file = vim.fn.expand '%'
+    local out = vim.fn.expand '%:r'
+    local flags = '-std=c++20 -pedantic-errors -Wall -Wextra -Weffc++ -Wconversion -Wsign-conversion -Werror -O2 -DNDEBUG'
+    vim.cmd('split | terminal g++ ' .. flags .. ' ' .. file .. ' -o ' .. out .. ' && ./' .. out)
+  end, { desc = '[C]ompile and run C++ file ([R]elease)' })
+
   -- Open Terminal split -> compile -> run file with <leader>cc
   vim.keymap.set('n', '<leader>cc', function()
     local file = vim.fn.expand '%'
@@ -795,10 +811,10 @@ do
     format_on_save = function(bufnr)
       -- You can specify filetypes to autoformat on save here:
       local enabled_filetypes = {
-        c = true,
-        cpp = true,
+        -- c = true,
+        -- cpp = true,
         lua = true,
-        python = true,
+        -- python = true,
       }
       if enabled_filetypes[vim.bo[bufnr].filetype] then
         return { timeout_ms = 500 }
