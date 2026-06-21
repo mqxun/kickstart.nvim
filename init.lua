@@ -400,6 +400,19 @@ do
     },
   }
 
+  -- Gitsigns hunk navigation and actions:
+  --   ]c / [c       jump to next/previous changed hunk
+  --   <leader>hp    preview hunk diff inline
+  --   <leader>hs    stage hunk
+  --   <leader>hr    reset/discard hunk
+  --   <leader>hb    show git blame for current line
+  vim.keymap.set('n', ']c', function() require('gitsigns').nav_hunk 'next' end, { desc = 'Next git [c]hange' })
+  vim.keymap.set('n', '[c', function() require('gitsigns').nav_hunk 'prev' end, { desc = 'Previous git [c]hange' })
+  vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { desc = 'Git [h]unk [p]review' })
+  vim.keymap.set('n', '<leader>hs', require('gitsigns').stage_hunk, { desc = 'Git [h]unk [s]tage' })
+  vim.keymap.set('n', '<leader>hr', require('gitsigns').reset_hunk, { desc = 'Git [h]unk [r]eset' })
+  vim.keymap.set('n', '<leader>hb', function() require('gitsigns').blame_line { full = true } end, { desc = 'Git [h]unk [b]lame line' })
+
   -- Useful plugin to show you pending keybinds.
   vim.pack.add { gh 'folke/which-key.nvim' }
   require('which-key').setup {
